@@ -1,6 +1,6 @@
 package ru.job4j.concurrent.linked;
 
-public class Node<T> {
+public final class Node<T> {
     private final Node<T> next;
     private final T value;
 
@@ -11,7 +11,7 @@ public class Node<T> {
 
 
     public Node<T> getNext() {
-        return next;
+        return new Node<>(next, value);
     }
 
     public T getValue() {
