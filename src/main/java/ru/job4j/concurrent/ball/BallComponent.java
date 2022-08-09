@@ -16,6 +16,7 @@ public class BallComponent extends JPanel {
 
     /**
      * Input a ball into component
+     *
      * @param b The injected ball
      */
     public void add(Ball b) {
