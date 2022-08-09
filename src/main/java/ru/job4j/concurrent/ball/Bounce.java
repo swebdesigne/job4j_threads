@@ -22,10 +22,6 @@ public class Bounce {
         );
     }
 
-    public static void clear(JPanel jPanel) {
-        frame.remove(jPanel);
-    }
-
     public static void main(String[] args) {
         Bounce.run();
     }
