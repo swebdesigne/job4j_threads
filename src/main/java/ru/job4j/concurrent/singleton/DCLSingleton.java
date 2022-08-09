@@ -14,6 +14,6 @@ public class DCLSingleton {
         return inst;
     }
 
-    public DCLSingleton() {
+    private DCLSingleton() {
     }
 }
