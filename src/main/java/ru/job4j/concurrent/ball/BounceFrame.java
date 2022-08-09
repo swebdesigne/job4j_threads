@@ -11,8 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class BounceFrame extends JFrame {
     private static BallComponent comp;
     public static final int DELAY = 3;
-    public static final int STEPS = 1000;
-    private static boolean STATUS = true;
+    private static boolean status = true;
 
     /**
      * Constructing a frame wit component being displayid the bouncing ball, and buttons Start and Close
@@ -24,11 +23,11 @@ public class BounceFrame extends JFrame {
         add(comp, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         addButton(buttonPanel, "Start", event -> {
-                    STATUS = true;
+                    status = true;
                     addBall();
                 }
         );
-        addButton(buttonPanel, "Stop", event -> STATUS = false);
+        addButton(buttonPanel, "Stop", event -> status = false);
         addButton(buttonPanel, "Clear", event -> {
                     comp.clear();
                     comp.updateUI();
@@ -62,7 +61,7 @@ public class BounceFrame extends JFrame {
                     try {
                         Ball ball = new Ball();
                         comp.add(ball);
-                        while (STATUS) {
+                        while (status) {
                             ball.move(comp.getBounds());
                             comp.paint(comp.getGraphics());
                             TimeUnit.MICROSECONDS.sleep(DELAY);

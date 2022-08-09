@@ -29,11 +29,11 @@ public class Ball {
         }
         if (x + X_SIZE >= bounds.getMaxX()) {
             x = bounds.getMaxX() - X_SIZE;
-            dx = - dx;
+            dx = -dx;
         }
         if (y < bounds.getMinY()) {
             y = bounds.getMinY();
-            dy = - dy;
+            dy = -dy;
         }
         if (y + Y_SIZE >= bounds.getMaxY()) {
             y = bounds.getMaxY() - Y_SIZE;
