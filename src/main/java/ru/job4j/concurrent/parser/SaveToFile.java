@@ -3,8 +3,14 @@ package ru.job4j.concurrent.parser;
 import java.io.*;
 
 public final class SaveToFile implements ISaveContent {
+    private final File file;
+
+    public SaveToFile(File file) {
+        this.file = file;
+    }
+
     @Override
-    public void save(File file, String content) {
+    public void save(String content) {
         try (OutputStream o = new FileOutputStream(file);
              BufferedOutputStream bfr = new BufferedOutputStream(o)
         ) {

@@ -1,6 +1,9 @@
 package ru.job4j.concurrent.parser;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.function.Predicate;
 
 /**
@@ -11,11 +14,9 @@ import java.util.function.Predicate;
  */
 public final class ParseFile {
     private final File file;
-    private final ISaveContent saveContent;
 
     public ParseFile(String file, ISaveContent saveContent) {
         this.file = new File(file);
-        this.saveContent = saveContent;
     }
 
     public synchronized File getFile() {
@@ -37,17 +38,17 @@ public final class ParseFile {
      * @return String
      */
     private String getContentFromFile(Predicate<Character> filter) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         try (BufferedInputStream bfr = new BufferedInputStream(new FileInputStream(file), 200)) {
             int data;
-            while ((data = bfr.read()) > 0) {
+            while ((data = bfr.read()) != -1) {
                 if (filter.test((char) data)) {
-                    output += (char) data;
+                    output.append((char) data);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return output;
+        return output.toString();
     }
 }
