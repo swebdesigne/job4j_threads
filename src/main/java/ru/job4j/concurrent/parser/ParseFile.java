@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 public final class ParseFile {
     private final File file;
 
-    public ParseFile(String file, ISaveContent saveContent) {
+    public ParseFile(String file) {
         this.file = new File(file);
     }
 
