@@ -34,7 +34,7 @@ public class AccountStorage {
             int amountFrom = from.get().amount();
             int amountTo = to.get().amount();
             update(new Account(fromId, amountFrom - amount));
-            update(new Account(toId, amountFrom + amount));
+            update(new Account(toId, amountTo + amount));
             return true;
         }
         return false;
