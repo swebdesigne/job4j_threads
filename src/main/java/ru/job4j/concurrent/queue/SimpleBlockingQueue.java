@@ -13,6 +13,10 @@ public class SimpleBlockingQueue<T> {
     private final Object monitor = this;
     private final int limit;
 
+    public int getLimit() {
+        return limit;
+    }
+
     public SimpleBlockingQueue(int limit) {
         this.limit = limit;
     }
@@ -36,5 +40,9 @@ public class SimpleBlockingQueue<T> {
             monitor.notifyAll();
             return poll;
         }
+    }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
