@@ -23,13 +23,10 @@ public class Cache {
                     base = new Base(id, base.getVersion() + 1);
                     base.setName(model.getName());
                     return base;
-                }) == null;
+                }) != null;
     }
 
     public void delete(Base model) {
-        if (!memory.keySet().contains(model.getId())) {
-            throw new OptimisticException("Object is not exists");
-        }
-        memory.entrySet().removeIf(e -> e.getValue().equals(model));
+        memory.remove(model.getId(), model);
     }
 }
