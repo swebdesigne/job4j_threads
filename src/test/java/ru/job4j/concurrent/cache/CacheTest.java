@@ -24,15 +24,6 @@ class CacheTest {
     }
 
     @Test
-    public void whenAttemptToGetTheDeletedElement() {
-        Base base = new Base(1, 0);
-        Cache cache = new Cache();
-        cache.add(base);
-        cache.delete(base);
-        assertThrows(OptimisticException.class, () -> cache.delete(base));
-    }
-
-    @Test
     public void whenVersionsNotEquals() {
         Base base = new Base(1, 0);
         Cache cache = new Cache();
