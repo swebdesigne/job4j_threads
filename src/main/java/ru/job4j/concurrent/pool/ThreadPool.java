@@ -4,6 +4,7 @@ import ru.job4j.concurrent.queue.SimpleBlockingQueue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ThreadPool {
     private final List<Thread> threads = new ArrayList<>();
@@ -37,4 +38,21 @@ public class ThreadPool {
         threads.forEach(Thread::interrupt);
     }
 
+    public static void main(String[] args) {
+        ThreadPool threadPool = new ThreadPool();
+        IntStream.range(0, 1000).forEach(index -> {
+            try {
+                threadPool.work(() -> System.out.printf("Thread: %s. Task number: %d\n",
+                        Thread.currentThread().getName(), index));
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        threadPool.shutDown();
+    }
 }
