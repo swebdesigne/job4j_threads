@@ -1,34 +1,55 @@
 package ru.job4j.concurrent.pools;
 
-import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveTask;
 import java.util.stream.IntStream;
 
-public class ParallelSearchIndexInArray<T> {
+public class ParallelSearchIndexInArray<T> extends RecursiveTask<Integer> {
     private final T[] array;
+    private final int from;
+    private final int to;
+    private final T value;
 
-    public ParallelSearchIndexInArray(T[] array) {
+    public ParallelSearchIndexInArray(T[] array, int from, int to, T value) {
         this.array = array;
+        this.from = from;
+        this.to = to;
+        this.value = value;
     }
 
-    public int findIndex(T index) {
-        if (array.length <= 10) {
-            return IntStream.range(0, array.length)
-                    .filter(i -> index.equals(array[i]))
-                    .findFirst()
-                    .orElse(-1);
-        }
+    private int findIndex() {
+        return IntStream.range(0, array.length)
+                .filter(i -> this.value.equals(array[i]))
+                .findFirst()
+                .orElse(-1);
+    }
 
-        return 1;
+    @Override
+    protected Integer compute() {
+        if (to - from <= 10) {
+            return findIndex();
+        }
+        int mid = (from + to) / 2;
+        ParallelSearchIndexInArray<T> leftPart = new ParallelSearchIndexInArray<>(array, from, mid, value);
+        ParallelSearchIndexInArray<T> rightPart = new ParallelSearchIndexInArray<>(array, mid + 1, to, value);
+        leftPart.fork();
+        rightPart.fork();
+        int left = leftPart.join();
+        int right = leftPart.join();
+        return Math.max(left, right);
     }
 
     public static void main(String[] args) {
-        Integer[] array = IntStream.generate(() -> new Random().nextInt(3))
-                .limit(3)
+        Integer[] array = IntStream.generate(() -> new Random().nextInt(15))
+                .limit(15)
                 .boxed()
                 .toArray(Integer[]::new);
-        ParallelSearchIndexInArray<Integer> finder = new ParallelSearchIndexInArray<>(array);
-        Arrays.stream(array).forEach(System.out::println);
-        System.out.println(finder.findIndex(2));
+        ParallelSearchIndexInArray<Integer> finder = new ParallelSearchIndexInArray<>(
+                array, 0, array.length - 1, 1
+        );
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        forkJoinPool.invoke(finder);
+        System.out.println(finder.compute());
     }
 }
