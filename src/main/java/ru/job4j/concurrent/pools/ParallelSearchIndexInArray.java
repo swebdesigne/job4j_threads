@@ -17,8 +17,8 @@ public class ParallelSearchIndexInArray<T> extends RecursiveTask<Integer> {
         this.value = value;
     }
 
-    private int findIndex(int from, int to) {
-        return IntStream.range(from, to)
+    private int findIndex() {
+        return IntStream.rangeClosed(from, to)
                 .filter(i -> this.value.equals(array[i]))
                 .findFirst()
                 .orElse(-1);
@@ -27,9 +27,7 @@ public class ParallelSearchIndexInArray<T> extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         if (to - from <= 10) {
-            int left = findIndex(from, to);
-            int right = findIndex(to, array.length);
-            return left == -1 ? right : left;
+           return findIndex();
         }
         int mid = (to - from) / 2;
         ParallelSearchIndexInArray<T> leftPart = new ParallelSearchIndexInArray<>(array, from, mid, value);
@@ -37,7 +35,7 @@ public class ParallelSearchIndexInArray<T> extends RecursiveTask<Integer> {
         leftPart.fork();
         rightPart.fork();
         int left = leftPart.join();
-        int right = leftPart.join();
+        int right = rightPart.join();
         return Math.max(left, right);
     }
 
