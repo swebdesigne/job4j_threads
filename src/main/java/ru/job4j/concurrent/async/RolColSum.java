@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * @author Igor Sivolobov
- * @since 09.06.22
+ * @since 06.09.22
  * @version 1.0
  */
 public class RolColSum {
