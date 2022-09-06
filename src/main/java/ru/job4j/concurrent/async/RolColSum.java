@@ -6,7 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /**
- * @author Igor Sivolbov
+ * @author Igor Sivolobov
  * @since 09.06.22
  * @version 1.0
  */
