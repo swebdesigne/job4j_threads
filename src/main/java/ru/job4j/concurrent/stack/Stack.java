@@ -23,7 +23,7 @@ public class Stack<T> {
         do {
             ref = head.get();
             if (ref == null) {
-                throw new IllegalStateException("Stack i,s empty");
+                throw new IllegalStateException("Stack is empty");
             }
             temp = ref.next;
         } while (!head.compareAndSet(ref, temp));
